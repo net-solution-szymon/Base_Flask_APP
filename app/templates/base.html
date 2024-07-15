@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.108.0">
+    <title>{% block title %} {%  endblock %} C_S_A</title>
+
+<link href="../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../static/bootstrap-5.3.0-alpha1-dist/bootstrap-icons-1.10.3/bootstrap-icons.css" rel="stylesheet">
+
+
+
+
+  </head>
+<body>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  
+<header>
+  <nav class="navbar navbar-expand-lg navbar-expand-lg bg-dark navbar-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-xxl">
+      <!-- można wstawić tutaj tytuł witryny -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" href="#"><i class="bi bi-card-list"></i> Item menu</a>
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item ">
+            <a class="nav-link active" aria-current="page" href="#"><i class="bi bi-file-earmark-plus"></i> Item menu</a>
+          </li>
+          {% endif %}
+        </ul>
+          {% if user.is_authenticated %}
+          <span class="navbar-text">
+            {{user.name}} logged in
+          </span>
+          {% endif %}
+          <!-- <form class="d-flex" role="search" >
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search", name="search">
+            <button onclick="openTabWithGoogleSearch()" class="btn btn-outline-secondary" type="submit">Search</button>
+          </form> -->
+        <span class="navbar-text">
+          <ul class="navbar-nav me-auto mb-3 mb-lg-0 "></ul>
+          <li class="nav-item dropdown bg-dark text-white list-unstyled px-4">
+            {% if user.is_authenticated %}
+              <a class="nav-link active dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="{{url_for('auth.logout')}}"><i class="bi bi-person-circle"></i></a>
+            {% else %}
+              <a class="nav-link active dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="{{url_for('auth.login')}}">Login</a>
+            {% endif %}
+            <ul class="dropdown-menu ">
+                {% if user.is_authenticated %}  
+                  <a class="nav-link active px-2" href="{{url_for('auth.logout')}}">Logout </a>
+                  <a class="nav-link active px-2" href="{{url_for('auth.user_edit', id=user.id)}}">Edit User</a>
+                  <a class="nav-link active px-2" href="{{url_for('auth.password_change')}}">Change password </a>
+                  {% if user.role == 'admin'%}
+                  <a class="nav-link active px-2" href="{{url_for('auth.user_list')}}">Users list</a>
+                  {%endif%}
+                {% else %}
+                  <a class="nav-link active px-2" href="{{url_for('auth.login')}}">Login </a>
+                {% endif %}
+                 <a class="nav-link active px-2" href="{{url_for('auth.register')}}">Register user </a>
+            </ul>
+          </li>
+        </ul>
+        </span>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <div class=" py-4 " >
+    {% for message in get_flashed_messages(with_categories=true) %} 
+    <div class="container-fluid row justify-content-center">
+      <div class="col-4">
+        <div class="alert alert-{{message[0]}} alert-dismissible fade show" role="alert">
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                 {{ message[1]}} {{message[2]}}  
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+{% block content %}
+
+{% endblock %}
+  </div>
+
+</main>
+<br>
+<footer class="fixed-bottom text-center text-white bg-dark">
+  <div class="container">
+    <p class="mb-1"> <span id='date'></span> &copy; Company</p>
+  </div>
+</footer>
+
+
+    <script src="../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        const date = new Date();
+
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+        // This arrangement can be altered based on how we want the date's format to appear.
+        let currentDate = `${year}`;
+        document.getElementById('date').innerHTML=currentDate;
+
+    </script>
+      <script>
+        var input = document.getElementById("search");
+        function openTabWithGoogleSearch() {
+        window.open("https://google.pl/search?q=" + input.value);
+        }
+      </script>
+{% block script %}
+{% endblock %}
+  </body>
+</html>

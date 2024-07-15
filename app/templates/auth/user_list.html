@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="container-fluid">
+        <div class="row justify-content-md-center">
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 ">
+                <div class="card bg-transparent">
+                    <h6 class="card-header">Lista użytkowników:</h6>
+                    <div class="card-body">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">name</th>
+                            <th scope="col">email</th>
+                            <th scope="col">role</th>
+                            <th scope="col">edit</th>
+                            <th scope="col">delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% set n=namespace(value=1) %}
+                          {% for user in users %}
+                          <tr>
+                            <th scope="row">{{n.value}}</th>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.role }}</td>
+                            <td><a href="{{url_for('.user_edit', id=user.id)}}" class="link-offset-3">edit</a></td>
+                            <td><a href="{{url_for('.delete_user', id=user.id)}}" class="link-offset-3">delete</a></td>
+                          </tr>
+                            {% set n.value = n.value+1 %}
+                          {%  endfor %}
+                        </tbody>
+                      </table>
+                        
+                            
+                            
+                    </div>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}  
+

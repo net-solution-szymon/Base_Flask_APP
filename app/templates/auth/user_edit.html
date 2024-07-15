@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="container-fluid">
+        <div class="row justify-content-md-center">
+            <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
+                <div class="card bg-transparent">
+                    <h6 class="card-header">Edit user data</h6>
+                    <div class="card-body">
+                        <form method="POST" action="/user_edit/{{form.id.data}}">
+                            
+                            {{ form.csrf_token }}
+
+                            {{form.name.label(class="form-label")}}
+                            {{form.name(class="form-control")}}  
+
+                            {{form.email.label(class="form-label")}}
+                            {% if form.email.errors %}
+                                {% for error in form.email.errors %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                           {{ error}}  
+                                  </div>
+                                {% endfor %}
+                            {% endif %}
+                            {{form.email(class="form-control")}}
+
+
+                            {{form.role.label(class="form-label")}}
+                            {% if user.role != 'admin' %}
+                                  {{form.role(disabled=True, class="form-control")}}
+                            {% else %}
+                            {{form.role(class="form-control")}}
+                            {% endif %}
+
+                            
+                            {{form.password.label(class="form-label")}}
+                            {% if form.password.errors %}
+                                {% for error in form.password.errors %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                           {{ error}}  
+                                  </div>
+                                {% endfor %}
+                            {% endif %}
+                            {{form.password(class="form-control")}}  
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="show-password_1">
+                                <label class="form-check-label" for="flexCheckIndeterminate">
+                                  Show password
+                                </label>
+                              </div>  
+
+                            {{form.password_2.label(class="form-label")}}
+                            {% if form.password_2.errors %}
+                                {% for error in form.password_2.errors %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                           {{ error}}  
+                                  </div>
+                                {% endfor %}
+                            {% endif %}
+                            {{form.password_2(class="form-control")}}                       
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="show-password_2">
+                                <label class="form-check-label" for="flexCheckIndeterminate">
+                                  Show password
+                                </label>
+                              </div>  
+                           
+                       <br/>
+                            {{form.submit(class="btn btn-secondary")}}
+
+                    </form>
+                    </div>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}  
+
+{% block script %}
+<script>
+const password = document.getElementById('password');
+const password_2 = document.getElementById('password_2');
+const showPasswordButton = document.getElementById('show-password_1');
+const showPasswordButton_2 = document.getElementById('show-password_2');
+
+
+showPasswordButton.addEventListener('click', () => { const currentType = password.type;
+if (currentType === 'password') {
+password.type = 'text'; } else {
+password.type = 'password'; }
+});
+
+showPasswordButton_2.addEventListener('click', () => { const currentType = password_2.type;
+if (currentType === 'password') {
+password_2.type = 'text'; } else {
+password_2.type = 'password'; }
+});
+
+
+document.getElementById("password").value = "supertajnehaslo";
+document.getElementById("password_2").value = "supertajnehaslo";
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="container-fluid">
+        <div class="row justify-content-md-center">
+            <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
+                <div class="card bg-transparent">
+                    <h6 class="card-header">Please logi in</h6>
+                    <div class="card-body">
+                        <form method="POST" action="/login">
+                            
+                            {{ form.csrf_token }}
+                            {{form.name.label(class="form-label")}}
+                            {{form.name(class="form-control")}}  
+                           
+                        
+                            {{form.password.label(class="form-label")}}
+                            {{form.password(class="form-control")}}   
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="show-password">
+                                <label class="form-check-label" for="flexCheckIndeterminate">
+                                  Pokaż hasło
+                                </label>
+                              </div>                  
+
+                           
+                       <br/>
+                            {{form.submit(class="btn btn-secondary")}}
+
+                    </form>
+                    </div>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}  
+{% block script %}
+<script>
+const password = document.getElementById('password');
+const showPasswordButton = document.getElementById('show-password');
+
+showPasswordButton.addEventListener('click', () => { const currentType = password.type;
+if (currentType === 'password') {
+password.type = 'text'; } else {
+password.type = 'password'; }
+});
+</script>
+{% endblock %}

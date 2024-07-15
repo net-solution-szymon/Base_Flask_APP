@@ -1,0 +1,40 @@
+version: '3.6'
+
+services:
+
+  csa_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: csa_app
+    volumes:
+    - .:/usr/src/app
+    restart: unless-stopped
+    environment:
+      - FLASK_APP=main
+      - TZ=Europe/Warsaw
+    ports:
+      - 8080:5000
+
+  db:
+    image: mariadb:10.3
+    restart: always
+    volumes:
+      - "../mariadb:/var/lib/mysql"
+      - "./custom:/docker-entrypoint-initdb.d"
+    # command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
+    environment:
+      MYSQL_ROOT_PASSWORD: #MYSQL_USER_PASSWORD
+      MYSQL_USER: #MYSQL_USER
+      MYSQL_PASSWORD: #MYSQL_USER_PASSWORD
+    ports:
+      - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    environment:
+      UPLOAD_LIMIT: 2G
+    ports:
+      - 8091:80
+
